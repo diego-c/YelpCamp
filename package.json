@@ -1,0 +1,33 @@
+{
+  "name": "v1",
+  "version": "1.0.0",
+  "description": "campground, wdb, v1",
+  "main": "app.js",
+  "scripts": {
+    "test": "console.log('hi')",
+    "start": "node app.js"
+  },
+  "author": "diego-c",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^2.5.0",
+    "body-parser": "^1.17.2",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^4.0.0",
+    "ejs": "^2.5.7",
+    "express": "^4.15.4",
+    "express-rate-limit": "^2.9.0",
+    "express-session": "^1.15.5",
+    "geocoder": "^0.2.3",
+    "helmet": "^3.8.1",
+    "method-override": "^2.3.9",
+    "moment": "^2.18.1",
+    "mongoose": "^4.11.10",
+    "nodemailer": "^4.1.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^4.2.1",
+    "serve-favicon": "^2.4.4",
+    "xss": "^0.3.4"
+  }
+}

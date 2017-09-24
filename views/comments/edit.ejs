@@ -1,0 +1,21 @@
+<%- include('../boilerplate/header') %>
+    <div class="container">
+        <h1>Edit your comment for
+            <%=camp.name%>
+        </h1>
+        <form method="POST" action="/campgrounds/<%=camp._id%>/comments/<%=comment._id%>?_method=PUT">
+            <div class="form-group my-5">
+                <label>Author: <%=user.username%></label>
+            </div>
+            <div class="form-group">
+                <div class="form-group mt-5 mb-4">
+                    <label for="text">Comment:</label>
+                    <textarea class="form-control" id="text" rows="10" cols="10" name="comment[text]" required placeholder="Comments..."><%=comment.text%></textarea>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg mb-5">Submit</button>
+        </form>
+        <a href="/campgrounds">Go back to the campgrounds</a>
+    </div>
+
+    <%- include('../boilerplate/footer') %>

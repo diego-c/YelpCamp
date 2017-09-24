@@ -1,0 +1,30 @@
+<%- include('../boilerplate/header') %>
+    <div class="container">
+        <h1>Register</h1>
+        <form action="/register" method="POST">
+            <div class="form-group">
+                <label for="username">
+            Username:
+        </label>
+                <input type="text" class="form-control" maxlength="30" required name="username" placeholder="Username...">
+            </div>
+            <div class="form-group">
+                <label for="username">
+            E-mail:
+        </label>
+                <input type="email" class="form-control" required name="email" placeholder="E-mail...">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" maxlength="60" required name="password" placeholder="Password...">
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+        </form>
+    </div>
+    <script>
+        let alert = document.querySelector(".alert");
+        if (alert) {
+            document.querySelector('.container').style.cssText = "padding-top: 0";
+        }
+    </script>
+    <%- include('../boilerplate/footer') %>

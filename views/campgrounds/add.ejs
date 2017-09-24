@@ -1,0 +1,42 @@
+<%- include('../boilerplate/header') %>
+    <div class="container-fluid">
+        <div class="jumbotron-fluid">
+            <h1>Add a new campground</h1>
+        </div>
+        <form method="post" action="/campgrounds">
+            <div class="form-group">
+                <label for="campname">Campground name</label>
+                <input type="text" class="form-control-md" id="campname" aria-describedby="campname" placeholder="Name..." name="name">
+            </div>
+            <div class="form-group">
+                <label for="campdesc">Campground description</label>
+                <input type="text" class="form-control-md" id="campdesc" aria-describedby="campname" placeholder="Description..." name="description">
+            </div>
+            <div class="form-group">
+                <label for="campimg">Campground image</label>
+                <input type="url" class="form-control-md" id="campimg" aria-describedby="campimg" placeholder="image URL..." name="img">
+            </div>
+            <div class="form-group">
+                <label for="location">Campground location</label>
+                <input type="text" class="form-control-md" id="location" aria-describedby="location" placeholder="Yosemite National Park, CA..."
+                    name="location">
+            </div>
+            <div class="form-group">
+                <label for="price">Campground price</label> ($)
+                <input type="number" min="0.00" max="9999.99" step="0.01" class="form-control-md" id="price" aria-describedby="price" placeholder="Price..."
+                    name="price" required>
+                <small class="form-text">Must be a number without any commas, only a single dot followed by two numbers representing the cents (e.g. 99.99, 1000.01, etc.) </small>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+        </form>
+        <a href="/campgrounds">Go back to the campgrounds</a>
+    </div>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ-jmewX0PBPle_k7qrWS-mJpwZwblwwg&libraries=places"></script>
+
+    <script>
+        let inputLocation = document.getElementById("location");
+
+        let autocomplete = new google.maps.places.Autocomplete(inputLocation);
+    </script>
+    <%- include('../boilerplate/footer') %>

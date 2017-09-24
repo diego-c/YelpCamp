@@ -1,0 +1,40 @@
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  min-height: 100%;
+  /* font-size: 16px; */
+  text-align: center;
+  background: #81c784;
+}
+header {
+  padding: 8vh 0;
+  margin-bottom: 6vh;
+}
+h1 {
+  font-size: 2rem;
+  margin-bottom: 8vh;
+  color: #37474f;
+}
+img {
+  width: 100%;
+  box-shadow: 3px 3px 10px #595959;
+}
+
+figcaption {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+div.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+footer {
+  color: black;
+  position: relative;
+  top: 7vh;
+  padding: 3vh 0;
+}

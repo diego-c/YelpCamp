@@ -1,0 +1,35 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100vh;
+}
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: #81c784;
+  text-align: center;
+}
+.container {
+  padding-top: 10vh;
+}
+.container > h1 {
+  margin-bottom: 15vh;
+}
+.container > form > input[type="email"] {
+  height: 38px;
+  position: relative;
+  top: 1px;
+  margin-right: 1vw;
+}
+.container > form > button[type="submit"].btn {
+  display: inline-block;
+}
+footer {
+  position: relative;
+  top: 35vh;
+  padding: 5vh 5vw;
+}

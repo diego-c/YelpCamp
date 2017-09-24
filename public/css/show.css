@@ -1,0 +1,88 @@
+body,
+html {
+  font-size: 16px;
+}
+body {
+  margin: 0;
+  text-align: center;
+  background-color: #81c784;
+}
+.figure-img {
+  box-shadow: 4px 4px 15px #4f4f4f;
+  /* margin-top: 5vh; */
+  margin-bottom: 5vh;
+}
+.figure-caption {
+  font-weight: 300;
+  font-size: 1.5rem;
+}
+.figure-caption > a[href="#"] {
+  float: left;
+  padding-left: 2vw;
+}
+.figure-caption > #price {
+  float: right;
+  padding-right: 2vw;
+}
+.figure-caption > p {
+  text-align: justify;
+  font-size: 1rem;
+  margin-top: 5vh;
+  padding: 1vh 2vw;
+  color: black;
+  font-weight: normal;
+}
+.card {
+  margin: 10vh 0;
+}
+.card > .card-body > ul.list-group > li > p.text-left {
+  margin-top: 5vh;
+  padding: 2vh 0;
+}
+.img-thumbnail {
+  padding: 0;
+}
+figcaption > form[method="POST"] {
+  float: left;
+  position: relative;
+}
+figcaption > form[method="POST"] > input[type="submit"] {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+}
+figcaption > a.btn-warning {
+  float: left;
+  margin-left: 2vw;
+  margin-right: 2vw;
+}
+
+body > div > div > div.col-md-9 > div.card > div > ul > li > a {
+  float: right;
+}
+body > div > div > div.col-md-9 > div.card > div > ul > li > form {
+  float: right;
+  margin-left: 2vw;
+}
+.badge-success {
+  height: 36px;
+  font-size: 1.5rem;
+}
+#map {
+  height: 400px;
+  width: 100%;
+  box-shadow: 2px 2px 6px #575757, -2px -2px 6px #575757;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  margin-top: 4vh;
+}
+.col-md-3 > aside {
+  margin-top: 5vh;
+}
+.row > .col-md-9 {
+  margin-top: 5vh;
+}
+footer {
+  padding: 5vh 0;
+}

@@ -1,0 +1,70 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+body,
+html {
+  height: 100vh;
+}
+div.img {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: 100%;
+}
+div.img::after {
+  content: "";
+  background: url(https://static.pexels.com/photos/349388/pexels-photo-349388.jpeg)
+    no-repeat;
+  background-size: cover;
+  background-position: center center;
+  opacity: 0.6;
+  width: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+}
+body {
+  min-height: 100vh;
+  margin: 0;
+}
+.container {
+  padding-top: 20vh;
+  padding-right: 5vw;
+  margin-right: 0;
+  position: relative;
+  z-index: 1;
+  max-height: 100vh;
+}
+.jumbotron {
+  background: transparent;
+  max-height: 100%;
+}
+.jumbotron > h1,
+p.lead {
+  text-align: right;
+}
+@media screen and (max-width: 530px) {
+  body > div > div > div > h1.display-3 {
+    font-size: 3rem;
+  }
+}
+p.lead {
+  margin: 8vh auto;
+  font-size: 1.5rem;
+}
+p.lead > a {
+  color: #1b20c5;
+}
+footer {
+  text-align: center;
+  position: relative;
+  top: calc(100vh - 64px - 100px);
+  padding: 0 4vw;
+}

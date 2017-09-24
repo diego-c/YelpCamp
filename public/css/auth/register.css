@@ -1,0 +1,25 @@
+body {
+  background-color: #81c784;
+  text-align: center;
+  font-size: 16px;
+}
+.container {
+  padding-top: 2vh;
+}
+.container > h1 {
+  padding-top: 2vh;
+}
+form[action="/register"] > .form-group {
+  margin: 8vh auto;
+}
+.form-group > label {
+  font-size: 1.2rem;
+}
+footer {
+  margin-top: 12vh;
+  padding: 3vh 0;
+}
+body > div > form > button {
+  cursor: pointer;
+  margin-top: 5vh;
+}

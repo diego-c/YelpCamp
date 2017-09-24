@@ -1,0 +1,15 @@
+<%- include('../boilerplate/header') %>
+    <div class="container">
+        <h1>E-mail to recover your password:</h1>
+        <form action="/forgot" method="POST">
+            <input type="email" name="email" required autofocus>
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    </div>
+    <script>
+        let alert = document.querySelector(".alert");
+        if (alert) {
+            document.querySelector('.container').style.cssText = "padding-top: 0";
+        }
+    </script>
+    <%- include('../boilerplate/footer') %>

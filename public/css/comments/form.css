@@ -1,0 +1,25 @@
+body {
+  text-align: center;
+  background-color: #81c784;
+}
+.container-fluid {
+  padding-top: 5vh;
+}
+textarea.form-control {
+  max-width: 50%;
+  margin: 0 auto;
+}
+a[href="/campgrounds"] {
+  display: inline-block;
+  margin-bottom: 4vh;
+}
+@media screen and (max-width: 576px) {
+  textarea.form-control {
+    max-width: 100%;
+  }
+}
+@media screen and (min-width: 576px) and (max-width: 768px) {
+  textarea.form-control {
+    max-width: 70%;
+  }
+}

@@ -1,0 +1,32 @@
+body {
+  text-align: center;
+  background-color: #81c784;
+}
+.container {
+  padding-top: 5vh;
+}
+.container > h1 {
+  padding-top: 2vh;
+}
+form[action="/login"] > .form-group {
+  margin: 8vh auto;
+  max-width: 60vw;
+}
+@media screen and (max-width: 576px) {
+  form[action="/login"] > .form-group {
+    margin: 8vh auto;
+    max-width: 90vw;
+  }
+}
+footer {
+  margin-top: 12vh;
+  padding: 3vh 0;
+}
+body > div > form > button {
+  cursor: pointer;
+}
+a[href="/forgot"] {
+  display: inline-block;
+  margin-top: 10vh;
+  color: #303f9f;
+}

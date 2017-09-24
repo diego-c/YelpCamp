@@ -1,0 +1,33 @@
+body,
+html {
+  height: 100vh;
+}
+
+body {
+  text-align: center;
+  margin: 0;
+  min-height: 100vh;
+  background-color: #81c784;
+}
+.jumbotron-fluid {
+  padding-top: 5vh;
+}
+
+.container-fluid {
+  margin-bottom: 5vh;
+}
+
+form {
+  margin: 10vh auto 8vh auto;
+}
+.form-group {
+  margin: 7vh auto;
+}
+small {
+  color: black;
+}
+.form-text {
+  margin-top: 5vh;
+  margin-bottom: 2vh;
+  padding: 0 5vw;
+}

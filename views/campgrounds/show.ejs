@@ -1,0 +1,113 @@
+<%- include('../boilerplate/header') %>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <aside>
+                    <p class="lead">YelpCamp</p>
+                    <div class="list-group">
+                        <li class="list-group-item active">Info 1</li>
+                        <li class="list-group-item">Info 2</li>
+                        <li class="list-group-item">Info 3</li>
+                    </div>
+                    <div id="map"></div>
+                </aside>
+            </div>
+            <div class="col-md-9">
+                <div class="img-thumbnail">
+                    <figure class="figure">
+                        <img src="<%=camp.image%>" class="figure-img img-fluid rounded">
+                        <figcaption class="figure-caption">
+                            <a href="#">
+                                <%=camp["name"]%>
+                            </a>
+                            <% if (parseFloat(camp["price"]).toFixed(2) == 0.00) { %>
+                                <span class="badge badge-success float-right mr-3">Free!</span>
+                                <% } %>
+                                    <span id="price">$<%=camp["price"]%>/night</span><br>
+                                    <p>
+                                        <%=camp.description%>
+                                    </p>
+                                    <p><em>
+                                Submitted by: <strong><%=camp["author"]["username"]%></strong>
+                            </em></p>
+                                    <% if (user) { %>
+                                        <% if (camp["author"]["id"].equals(user._id) || isAdmin) {%>
+                                            <a href="/campgrounds/<%=camp._id%>/edit" class="btn btn-warning">Edit</a>
+                                            <form action="/campgrounds/<%=camp._id%>?_method=DELETE" method="POST"><input type="submit" class="btn btn-danger" value="Delete"></form>
+                                            <% } %>
+                                                <% } %>
+                        </figcaption>
+                    </figure>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title text-right mb-4"><a href="/campgrounds/<%=camp._id%>/comments/new" class="btn btn-success btn-lg">Leave a Review</a></div>
+                        <ul class="list-group list-group-flush">
+                            <% camp.comments.forEach(comment => { %>
+                                <li class="list-group-item">
+                                    <p class="clearfix my-3">
+                                        <span class="float-left"><em><%=comment.author["username"]%></em></span><span class="float-right"><%=comment.date%></span>
+                                    </p>
+                                    <p class="text-left">
+                                        <%=comment.text%>
+                                    </p>
+                                    <% if (comment.edited.isEdited) { %>
+                                        <p class="text-left">
+                                            <em>Last edited on <%=comment.edited.lastEdited%></em>
+                                        </p>
+                                        <% } %>
+                                            <% if (user) { %>
+                                                <% if (comment.author.id.equals(user._id) || isAdmin) { %>
+                                                    <form action="/campgrounds/<%=camp._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </form>
+                                                    <a href="/campgrounds/<%=camp._id%>/comments/<%=comment._id%>/edit" class="btn btn-warning">Edit</a>
+
+                                                    <% } %>
+                                                        <% } %>
+                                </li>
+                                <% }) %>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function initMap() {
+            let lat = <%= camp.location.coords.lat %>;
+            let long = <%= camp.location.coords.long %>;
+            let center = {
+                lat: lat,
+                lng: long
+            };
+
+            let map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: center,
+                scrollWheel: false
+            });
+
+            let contentString =
+                `
+        <strong><%= camp.location.name %></strong>
+        <p><%= camp.description %></p>
+        `;
+            let infoWindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+            let marker = new google.maps.Marker({
+                position: center,
+                map: map
+            });
+            marker.addListener('click', () => {
+                infoWindow.open(map, marker);
+            });
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ-jmewX0PBPle_k7qrWS-mJpwZwblwwg&callback=initMap"></script>
+    <%- include('../boilerplate/footer') %>
