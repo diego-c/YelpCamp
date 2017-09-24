@@ -1,5 +1,5 @@
 # Description
-A super simple RESTful Yelp-like application in which users can add campgrounds and reviews / comments.
+A super simple RESTful Yelp-like application in which users can add campgrounds and reviews / comments. It's a project for the Web Developer Bootcamp course on Udemy by Colt Steele.
 
 # Features
 * Authentication and authorization
