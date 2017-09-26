@@ -122,6 +122,11 @@ router.post("/forgot", (req, res, next) => {
       })
       .exec()
       .then(user => {
+        if (!user) {
+          req.flash("error","No account with the specified e-mail address was found");
+          return res.redirect("/forgot");
+          console.error(`Could not find user\n${err}`);
+        }
         user.resetPasswordToken = token;
         user.resetPasswordExpires = Date.now() + 1000 * 60 * 15;
         return new Promise((resolve, reject) => {
@@ -138,13 +143,9 @@ router.post("/forgot", (req, res, next) => {
         .then(user => {
           // we only have access to the user here
           // could use User.findOne(user).exec().then(user => user.resetPasswordToken), but it's not ideal!
-          req.flash("warning", `Sorry, ${user.username}, the feature is yet to be implemented`);
+          req.flash("warning", `Sorry, ${user.username}, this feature is yet to be implemented`);
           return res.redirect('/campgrounds');          
         })        
-      }, err => {
-        req.flash("error","No account with the specified e-mail address was found");
-        return res.redirect("/forgot");
-        console.error(`Could not find user\n${err}`);        
       })              
       })
     })                   
