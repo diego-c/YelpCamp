@@ -3,6 +3,7 @@ const express = require("express"),
   User = require("../models/user"),
   passport = require("passport"),
   middleware = require("../middleware/warez"),
+  util = require('util'),
   async = require("async"),
   crypto = require("crypto"),
   mailer = require("nodemailer"),
@@ -99,11 +100,70 @@ router.get("/forgot", (req, res) => {
   });
 });
 
+// testing /forgot route
+router.post("/forgot", (req, res, next) => {
+
+  return new Promise((resolve, reject) => {
+    const randomBytes = util.promisify(crypto.randomBytes);
+    randomBytes(20)
+    .then(buf => {
+      let token = buf.toString('hex');
+      return resolve(token);
+    }, err => {
+      console.error(`Could not create random bytes\n${err}`);
+      req.flash("error", "Oops, something went wrong! Please try again later.");
+      return res.redirect("/forgot");
+    })
+  })
+    .then(token => {
+      return new Promise((resolve, reject) => {
+        User.findOne({
+        email: req.body.email
+      })
+      .exec()
+      .then(user => {
+        user.resetPasswordToken = token;
+        user.resetPasswordExpires = Date.now() + 1000 * 60 * 15;
+        return new Promise((resolve, reject) => {
+          user.save().then(user => {
+              // we have access to the user and the token here!
+              // if you wanna do something with the token, do it here!
+              return resolve(user);
+          }, err => {
+              console.error(`Couldn't save user!\n`);
+              req.flash("error", "Oops, something went wrong! Please try again later.");
+              return res.redirect("/forgot");
+          })
+        })
+        .then(user => {
+          // we only have access to the user here
+          // could use User.findOne(user).exec().then(user => user.resetPasswordToken), but it's not ideal!
+          req.flash("warning", `Sorry, ${user.username}, the feature is yet to be implemented`);
+          return res.redirect('/campgrounds');          
+        })        
+      }, err => {
+        req.flash("error","No account with the specified e-mail address was found");
+        return res.redirect("/forgot");
+        console.error(`Could not find user\n${err}`);        
+      })              
+      })
+    })                   
+    .catch(err => {
+      console.error("Caught an error at the end\n" + err);
+      req.flash("error", "Oops, something went wrong! Please try again later.");
+      return res.redirect("/forgot");
+    })
+    })
+     
+  
+
+/*
 router.post("/forgot", (req, res) => {
   res.send(
     "This is just a placeholder response, this feature will be properly implemented in the future"
   );
 });
+*/
 
 // auth routes shipped!
 module.exports = router;
