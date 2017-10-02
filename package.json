@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "async": "^2.5.0",
+    "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "connect-flash": "^0.1.1",
     "dotenv": "^4.0.0",

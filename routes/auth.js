@@ -3,10 +3,12 @@ const express = require("express"),
   User = require("../models/user"),
   passport = require("passport"),
   middleware = require("../middleware/warez"),
-  async = require("async"),
   util = require('util'),
+  bluebird = require('bluebird'),
+  async = require("async"),
   crypto = require("crypto"),
   mailer = require("nodemailer"),
+  //mailjet = require('node-mailjet').connect(process.env.MAIL_KEY, process.env.MAIL_SECRET)
   xss = require("xss");
 // ==============================
 /**
@@ -100,10 +102,14 @@ router.get("/forgot", (req, res) => {
   });
 });
 
-// testing /forgot route
+// send request for token to change the password
+// POST /forgot
+
 router.post("/forgot", (req, res, next) => {
 
   return new Promise((resolve, reject) => {
+    // since util is only present on node v8+ environments, we can use this bluebird polyfill
+    // const randomBytes = bluebird.promisfy(crypto.randomBytes);
     const randomBytes = util.promisify(crypto.randomBytes);
     randomBytes(20)
     .then(buf => {
@@ -133,24 +139,46 @@ router.post("/forgot", (req, res, next) => {
           user.save().then(user => {
               // we have access to the user and the token here!
               // if you wanna do something with the token, do it here!
-              return resolve(user);
-          }, err => {
-              if (!user) {
-                req.flash("error","No account with the specified e-mail address was found");
-                return res.redirect("/forgot");
-                console.error(`Could not find user\n${err}`);
+               let smtpTransport = mailer.createTransport({
+              service: 'Gmail',
+              auth: {
+              user: process.env.MAIL_ACC,
+              pass: process.env.MAIL_PASS
               }
+          });
+        let mailOptions = {
+          to: user.email,
+          from: "YelpCamp Demo",
+          subject: "YelpCamp password reset",
+          text: 
+          `Hello, ${user.username}. You are receiving this e-mail because you (or someone else) requested a password reset for YelpCamp.
+            
+          Click on the following link to proceed:
+            
+          http://${req.headers.host}/reset/${token}/
+            
+          If you did not request this, please ignore or delete this email.`
+        };
+         smtpTransport.sendMail(mailOptions, (err, info) => {
+          if (err) {
+            console.log(`Could not send email: ${err}`);
+            return reject(err);
+          }
+          req.flash(
+            "success",
+            `An email has been sent for ${user.email} with further instructions`
+          );
+          return res.redirect("/campgrounds");
+        })
+        }, err => {
               console.error(`Couldn't save user!\n`);
               req.flash("error", "Oops, something went wrong! Please try again later.");
               return res.redirect("/forgot");
           })
         })
-        .then(user => {
-          // we only have access to the user here
-          // could use User.findOne(user).exec().then(user => user.resetPasswordToken), but it's not ideal!
-          req.flash("warning", `Sorry, ${user.username}, this feature is yet to be implemented`);
-          return res.redirect('/campgrounds');          
-        })        
+        .catch(err => {
+          console.error(`Handled error: ${err}`);
+        })           
       })              
       })
     })                   
@@ -159,13 +187,79 @@ router.post("/forgot", (req, res, next) => {
       req.flash("error", "Oops, something went wrong! Please try again later.");
       return res.redirect("/forgot");
     })
+})
+
+// get the page to reset the password
+// GET /reset/:token
+router.get('/reset/:token', (req, res) => {
+  User.findOne({
+    resetPasswordToken: req.params.token,
+    resetPasswordExpires: {
+      $gt: Date.now()
+    }
+  })
+  .exec()
+  .then(user => {
+    if (!user) {
+      req.flash("error", "Your password token is invalid or has expired, please try again");
+      return res.redirect('/forgot');
+    }
+    res.render('./users/reset', {
+      title: 'Reset your password',
+      css: "./css/auth/reset.css",
+      token: req.params.token
     })
-/*
-router.post("/forgot", (req, res) => {
-  res.send(
-    "This is just a placeholder response, this feature will be properly implemented in the future"
-  );
-});
-*/
+  })
+  .catch(err => {
+    req.flash("error", "Oops, something went wrong. Please try again later");
+    return res.redirect('/forgot');
+  })
+})
+
+// send POST request to change the password
+// POST /reset/:token
+router.post('/reset/:token', (req, res) => {
+  User.findOne({
+    resetPasswordToken: req.params.token,
+    resetPasswordExpires: {
+      $gt: Date.now()
+    }
+  })
+  .exec()
+  .then(user => {
+    if (!user) {
+      req.flash("error", "Your password token is invalid or has expired, please try again");
+      return res.redirect('/forgot');
+    }
+    if (req.body.password === req.body.confirm) {
+      user.setPassword(req.body.password, err => {
+        user.resetPasswordExpires = undefined;
+        user.resetPasswordToken = undefined;
+        if (err) {
+          req.flash("error", "Sorry, you password could not be changed at this time. Please try again later");
+          return res.redirect('/campgrounds');
+        }
+        return new Promise((resolve, reject) => {
+          user.save().then(user => {
+            req.logIn(user, err => {
+              return resolve(user);
+            })
+          }, err => {
+            reject(err);
+          })
+        })
+        .then(user => {
+          req.flash("success", "Your password has been changed!");
+          res.redirect("/campgrounds");
+        })
+        .catch(err => {
+          req.flash("error", "Sorry, you password could not be changed at this time. Please try again later");
+          return res.redirect('/campgrounds');
+        })              
+      })
+    } 
+  })   
+})
+  
 // auth routes shipped!
 module.exports = router;
