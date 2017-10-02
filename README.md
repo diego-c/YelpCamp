@@ -8,6 +8,7 @@ A super simple RESTful Yelp-like application in which users can add campgrounds 
 * Integration with Google Maps API
 
 # TODO
-* Add a "forgot password?" feature
+* ~Add a "forgot password?" feature~ :white_check_mark:
+* Style "reset password" page
 * Add user profile
 * Make a better UI
