@@ -136,41 +136,6 @@ router.post("/forgot", (req, res, next) => {
           user.save().then(user => {
               // we have access to the user and the token here!
               // if you wanna do something with the token, do it here!
-
-              // test using mailjet
-              /*
-              let sendMail = mailjet.post('send');
-              
-              let emailData = {                            
-                'FromEmail': 'yelpcamp@mail.com',
-                'FromName': 'YelpCamp Demo',
-                'Subject': 'Password change',
-                'Text-part': "Hello, "+user.username+". You are receiving this e-mail because you (or someone else) requested a password reset for YelpCamp."+
-
-                "Click on the following link to proceed: "+
-            
-                "http://"+req.headers.host+"/reset/"+token+"/"+
-            
-                "If you did not request this, please ignore or delete this email.",
-              'Recipients': [{'Email': user.email}]                
-              }
-
-              
-              sendMail
-              .request(emailData)
-              .then(res => {
-                console.log(res);
-                req.flash("success", `An email has been sent for ${user.email} with further instructions`);
-                return res.redirect("/campgrounds");
-              })
-              .catch(err => {
-                console.error("Oops: " + err);
-                return reject(err);
-              })
-              */
-
-              // using nodemailer with Gmail (not ready yet!)
-
               let smtpTransport = mailer.createTransport({
               service: 'Gmail',
               auth: {
@@ -182,8 +147,8 @@ router.post("/forgot", (req, res, next) => {
           to: user.email,
           from: "YelpCamp Demo",
           subject: "YelpCamp password reset",
-          text: `
-          Hello, ${user.username}. You are receiving this e-mail because you (or someone else) requested a password reset for YelpCamp.
+          text: 
+          `Hello, ${user.username}. You are receiving this e-mail because you (or someone else) requested a password reset for YelpCamp.
             
           Click on the following link to proceed:
             
