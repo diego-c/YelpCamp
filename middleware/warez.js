@@ -5,7 +5,7 @@ function checkAuth(req, res, next) {
   if (req.isAuthenticated()) {
     next();
   } else {
-    req.flash("warning", "You need to be logged in order to do that.");
+    req.flash("warning", "You need to be logged in to do that.");
     res.redirect("/login");
   }
 }
