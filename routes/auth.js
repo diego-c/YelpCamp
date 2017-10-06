@@ -206,7 +206,7 @@ router.get('/reset/:token', (req, res) => {
     }
     res.render('./users/reset', {
       title: 'Reset your password',
-      css: "./css/auth/reset.css",
+      css: "/css/auth/reset.css",
       token: req.params.token
     })
   })
@@ -219,6 +219,14 @@ router.get('/reset/:token', (req, res) => {
 // send POST request to change the password
 // POST /reset/:token
 router.post('/reset/:token', (req, res) => {
+  if (!req.body.password.trim() || !req.body.confirm.trim()) {
+    req.flash("error", "Your password must not be empty");
+    return res.redirect('/reset/' + req.params.token);
+  }
+  if (req.body.password.trim().length > 60 || req.body.confirm.trim().length > 60) {
+    req.flash("warning", "Your password must not exceed 60 characters");
+    return res.redirect("/reset/" + req.params.token);
+  }
   User.findOne({
     resetPasswordToken: req.params.token,
     resetPasswordExpires: {
